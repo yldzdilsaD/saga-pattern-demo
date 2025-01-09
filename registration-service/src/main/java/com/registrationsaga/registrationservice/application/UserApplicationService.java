@@ -20,16 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserApplicationService
 {
     private final UserRepository repository;
-    private final KafkaTemplate<String, UserRegisteredEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
     @Value("${registration.events.topic.name}")
     private String registrationEventsTopicName;
 
     public void createUser(User user) {
         log.info("Creating user");
-        repository.save(user);
-        UserRegisteredEvent event = UserRegisteredEvent.builder()
-            .userId(user.getId())
-            .build();
-        kafkaTemplate.send(registrationEventsTopicName, event);
+        try{
+            repository.save(user);
+            UserRegisteredEvent event = UserRegisteredEvent.builder()
+                .userId(user.getId())
+                .build();
+            kafkaTemplate.send(registrationEventsTopicName, event);
+        }catch (Exception e){
+            log.error("Error creating user", e);
+        }
+
     }
 }

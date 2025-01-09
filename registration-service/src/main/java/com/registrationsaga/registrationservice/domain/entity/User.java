@@ -55,7 +55,6 @@ public class User extends BaseEntity
     @Pattern(regexp = CHARACTER_SET_PATTERN, message = VALIDATION_FAILED_MESSAGE)
     private String email;
 
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) // Bu ilişkiyi burada tanımlıyoruz
     @JoinColumn(name = "user_id")
     private List<Address> addresses; // User'ın sahip olduğu Address'leri burada tutuyoruz

@@ -13,8 +13,6 @@
     <name>registration-service</name>
     <description>registration-service</description>
 
-
-
     <properties>
         <java.version>21</java.version>
         <liquibase.default_schema>registration</liquibase.default_schema>
